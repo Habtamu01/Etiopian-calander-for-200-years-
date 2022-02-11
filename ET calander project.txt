@@ -1,0 +1,105 @@
+/*
+ * This programe calculate and display year ,months and Days of Ethiopian calander by asking input year from the user
+ * Which has 13 months in a year
+ * 30 Days in a month excpet from the 13th month and
+ * 7 Day in a week from Monday to Sunday
+*/
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+/*
+ *declaring a new function using that function Calculate the number of space / s / needed 
+  before printing starting Day in a month of the given year
+ *Using the reference tah ethiopian calander has 365 days and sometimes 366 days in a year also leap year every four years 
+  we need to use formulas like wrriten below
+ */
+int get_1st_weekday(int Year) {
+
+    int day_of_the_week;
+    day_of_the_week = ((Year * 365) +(Year / 4) + 1) % 7;
+    return day_of_the_week;
+}
+
+int main()
+{
+    //Declaring varible that are needed
+    int Year, Day, Month, DayinMonth, Weekend = 0, stratingDay;
+    char choice;
+    //Declaring the number of Months in a year
+    string Months[] = { "Meskerem","Tikimt","Hidar","Tahisas","Tir","Yekatit","Megabit","Miyaziya","Ginbot","Sene","Hamle",
+                        "Nehase","Puagme" };
+    //Declaring the number of Days in a month
+    int MonthDay[] = { 30,30,30,30,30,30,30,30,30,30,30,30,5 };
+
+    //Asking user for input year
+    cout << "\n Enter the Year you want to see the calendar For?" << "\n YEAR = ";
+    cin >> Year;
+
+    //Validating users answer
+    if (Year <= 1900 || Year >= 2100)
+    {
+        // if user answer is not between 2000 and 2020 display error and ask again
+        cout << " Invalid YEAR please try again.";
+        cout << main();
+    }
+    else
+    {
+        // if user answer is between 2000 and 2020 display Ethiopian calander and continue
+        cout << "\t ETHIOPIAN CALANDER FOR YEAR " << Year;      
+    }
+ 
+    //Printing space before Date
+    if ((Year % 4 == 3))
+    {
+        MonthDay[12] = 6;
+    }
+
+    //Passing by avlue of Entered year to the function get first week day
+    stratingDay = get_1st_weekday(Year);
+
+    //Displaying the Months Name and the name of the days in a week
+    for (Month = 0; Month <= 12; Month++)
+    {
+        cout << "\n-------------------------------------\n";
+        cout << setw(20) << setfill(' ') << Months[Month] << " " << Year;
+        cout << "\n-------------------------------------\n";
+        cout << "  Mon  Tus  Wed  Thr  Fri  Sat  Sun\n";
+
+        //Print spacees before the starting Day of the current year first month before printing numbner 1 
+        for (Weekend = 0;  Weekend < stratingDay; Weekend++)
+            cout << "     ";
+        stratingDay = Weekend;
+        //prinint and Displaying the number of Days in a month with common spacing
+        DayinMonth = MonthDay[Month];
+        for (Day = 1; Day <= DayinMonth; Day++)
+        {
+            cout << setw(5) << Day;
+            //printing new line after 7 days count
+            if (Weekend++ >= 6)
+            {
+                cout << "\n";
+                Weekend = 0;
+            }
+        }
+       stratingDay = Weekend;
+    }
+    cout << "\n*********************";
+    cout << "\n    Please Press";
+    cout << "\n*********************";
+    cout << "\n A, continue program.";
+    cout << "\n B, Exit program." << endl;
+    cin >> choice;
+    if (choice == 'A' || choice == 'a')
+    {
+        cout << main();
+    }
+    else if (choice == 'B' || choice == 'b')
+    {
+        cout << "\n Qutting program...";
+        return 0;
+    }
+    else if (choice != 'A' && choice != 'a' && choice != 'B' && choice != 'b')
+        cout << "\n Invalid Answer try again later.";
+    return 0;
+}
